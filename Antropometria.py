@@ -9,7 +9,8 @@ import sys
 import tkinter as tk
 from tkinter import ttk, messagebox, Menu
 from tkinter.font import Font
-from  Paciente import Paciente
+from  Paciente import Paciente,Paciente_salud
+from tkinter import *
 from  Paciente import Paciente_salud
 def harris_benedict(paciente:Paciente):
     if paciente.sexo == 'm':
@@ -43,10 +44,10 @@ def ventana_inicial():
 
     # Width es la cantidad de caracteres que ocupa el textbox
     txt_edad = ttk.Entry(ventana_inicial, width=30, font=font_size, )
-    txt_edad.grid(row=0, column=1, sticky='W', pady=10)
+    txt_edad.grid(row=0, column=1, sticky='W', pady=10,padx=5)
     txt_edad.insert(0, '21')
     # Etiqueta  edad (label)
-    lbl_edad = tk.Label(ventana_inicial, text='Introduce tu edad (Ej. 21):', font=font_size)
+    lbl_edad = tk.Label(ventana_inicial, text='Introduce tu edad en años, sin incluir meses (Ej. 21):', font=font_size)
     lbl_edad.grid(row=0, column=0, pady=10, sticky='W')
     # Text box peso
     txt_peso = ttk.Entry(ventana_inicial, width=30, font=font_size)
@@ -58,7 +59,7 @@ def ventana_inicial():
     # Text box Talla
     txt_talla = ttk.Entry(ventana_inicial, width=30, font=font_size)
     txt_talla.grid(row=2, column=1, pady=10)
-    txt_talla.insert(0, '1.82')
+    txt_talla.insert(0, '1.80')
     # Etiqueta Talla
     lbl_talla = tk.Label(ventana_inicial, text='Ingresa tu altura en metros (Ej. 1.82):', font=font_size)
     lbl_talla.grid(row=2, column=0, sticky='W', pady=10)
@@ -67,26 +68,26 @@ def ventana_inicial():
     txt_porcien_grasa.grid(row=3, column=1, pady=10)
     txt_porcien_grasa.insert(0, '16')
     # Etiqueta porcentaje de grasa
-    lbl_porcien_grasa = tk.Label(ventana_inicial, text='Ingresa tu porcentaje de grasa(Ej. 16):', font=font_size)
+    lbl_porcien_grasa = tk.Label(ventana_inicial, text='Ingresa tu porcentaje de grasa corporal(Ej. 16):', font=font_size)
     lbl_porcien_grasa.grid(row=3, column=0, sticky='W', pady=10)
     # Text box indice cintura cadera
     txt_icc = ttk.Entry(ventana_inicial, width=30, font=font_size)
     txt_icc.grid(row=4, column=1, pady=10)
-    txt_icc.insert(0, '1.74')
+    txt_icc.insert(0, '0.93')
     # Etiqueta indice cintura cadera
-    lbl_icc = tk.Label(ventana_inicial, text='Ingresa tu indice cintura cadera (Ej. 1.74):', font=font_size)
+    lbl_icc = tk.Label(ventana_inicial, text='Ingresa tu indice cintura cadera (Ej. 0.93):', font=font_size)
     lbl_icc.grid(row=4, column=0, sticky='W', pady=10)
     # Text box nivel de actividad fisica
     txt_actividad_fisica = ttk.Entry(ventana_inicial, width=30, font=font_size)
     txt_actividad_fisica.grid(row=5, column=1, pady=10)
     txt_actividad_fisica.insert(0, '30')
     # Etiqueta nivel de actividad fisica
-    lbl_actividad_fisica = tk.Label(ventana_inicial, text='Ingresa tu nivel de actividad fisica  (Ej. 30):',
-                                    font=font_size)
+    lbl_actividad_fisica = tk.Label(ventana_inicial, text='Ingresa tu nivel de actividad fisica\n10 para sedentario y 50 para atleta alto rendimiento (Ej. 30):',
+                                    justify=tk.LEFT,font=font_size)
     lbl_actividad_fisica.grid(row=5, column=0, sticky='W', pady=10)
     # Text box sexo
     txt_sexo = ttk.Entry(ventana_inicial, width=30, font=font_size)
-    txt_sexo.grid(row=6, column=1, pady=10)
+    txt_sexo.grid(row=6, column=1, pady=10,padx=5)
     txt_sexo.insert(0, 'h')
     # Etiqueta sexo
     lbl_sexo = tk.Label(ventana_inicial, text='Ingresa tu sexo "m" para mujer y "h" para hombre  (Ej. h):',
@@ -99,7 +100,7 @@ def ventana_inicial():
         print(txt_edad.get())
         peso = float(txt_peso.get())
         talla = float(txt_talla.get())
-        porcien_grasa = int(txt_porcien_grasa.get()),
+        porcien_grasa = int(txt_porcien_grasa.get())
         icc = float(txt_icc.get())
         edad = int(txt_edad.get())
         sexo = txt_sexo.get()
@@ -115,10 +116,10 @@ def ventana_inicial():
 
     # Funcion para cerrar la ventana
     def salir():
-        ventana_inicial.quit()
-        ventana_inicial.destroy()
+        ventana_inicial.quit() #Cerramos la ventana
+        ventana_inicial.destroy() #Destruimos el objeto
         print('Salimos...')
-        sys.exit()
+        sys.exit() #Cerramos desde el sistema la ventana
 
     def crear_menu():
         # Configurar el menu principal
@@ -129,7 +130,7 @@ def ventana_inicial():
 
     # N (arriba), E(derecha), S(abajo), W(izquierda)
     boton1 = tk.Button(ventana_inicial, text='Enviar', command=enviar_informacion_paciente, font=font_size)
-    boton1.grid(row=7, column=2, padx=40, pady=40)
+    boton1.grid(row=7, column=1, padx=40, pady=40)
     crear_menu()
     # Iniciamos la ventana (esta linea se debe ejecutar al final)
     # Si se ejecuta antes, no se muestran los cambios anteriores
@@ -147,21 +148,56 @@ def ventana_padecimientos(paciente:Paciente):
     ventana_padecimientos.iconbitmap('../eze_icon.ico')
     # Configuramos el grid
 
-    #Creamos una lista usando List comprhension
-    datos = [x+1 for x in range(10)]
-    combobox = ttk.Combobox(ventana_padecimientos,width=15,values= datos)
-    combobox.grid(row=0,column=0,padx=10,pady=10)
+    # Creamos checkbox con las opciones de los padecimientos mas comunes
+    lbl_1 = tk.Label(ventana_padecimientos,text='Seleccione los padecimientos que tenga.\nHaga click en la casilla sobre el padecimiento que tenga',justify=tk.LEFT)
+    lbl_1.grid(row=0,column=0,sticky='W')
+    #Checkbox diabetes
+    diabetes = BooleanVar()
+    opcion_diabetes = ttk.Checkbutton(ventana_padecimientos, text="Diabetes", variable=diabetes,onvalue=1,offvalue=0)
+    opcion_diabetes.grid(row=1,column=1,sticky="W")
+    # Checkbox hipertension
+    hipertension = BooleanVar()
+    opcion_hipertension = ttk.Checkbutton(ventana_padecimientos, text="Hipertension", variable=hipertension, onvalue=1, offvalue=0)
+    opcion_hipertension.grid(row=2,column=1,sticky="W")
+    # Checkbox obesidad
+    obesidad = BooleanVar()
+    opcion_obesidad = ttk.Checkbutton(ventana_padecimientos, text="Obesidad", variable=obesidad, onvalue=1, offvalue=0)
+    opcion_obesidad.grid(row=3,column=1,sticky="W")
+    # Checkbox enfermedad renal
+    enf_renal = BooleanVar()
+    opcion_enf_renal = ttk.Checkbutton(ventana_padecimientos, text="Enfermedad renal", variable=enf_renal, onvalue=1, offvalue=0)
+    opcion_enf_renal.grid(row=4,column=1,sticky="W")
+    # Checkbox Problema de tiroides
+    prob_tiroides = BooleanVar()
+    opcion_prob_tiroides = ttk.Checkbutton(ventana_padecimientos, text="Problema de tiroides", variable=prob_tiroides, onvalue=1, offvalue=0)
+    opcion_prob_tiroides.grid(row=5,column=1,sticky="W")
+    # Checkbox cancer
+    cancer = BooleanVar()
+    opcion_cancer = ttk.Checkbutton(ventana_padecimientos, text="Cancer", variable=cancer, onvalue=1, offvalue=0)
+    opcion_cancer.grid(row=6,column=1,sticky="W")
+    # Checkbox problemas cardiacos
+    prob_cardiacos = BooleanVar()
+    opcion_prob_cardiacos = ttk.Checkbutton(ventana_padecimientos, text="Problemas cardiacos", variable=prob_cardiacos, onvalue=1, offvalue=0)
+    opcion_prob_cardiacos.grid(row=7,column=1,sticky="W")
+    # Checkbox Anorexia o bulimia
+    anorexia_bulimia = BooleanVar()
+    opcion_anorexia_bulimia = ttk.Checkbutton(ventana_padecimientos, text="Anorexia o bulimia", variable=anorexia_bulimia, onvalue=1, offvalue=0)
+    opcion_anorexia_bulimia.grid(row=8,column=1,sticky="W")
 
     # Creamos un metodo evento_click
     def enviar_informacion_paciente():
-        print('hola')
+
+        requerimiento_calorico = harris_benedict(paciente) #Calculamos el requerimiento calorico del paciente
+        paciente_salud = Paciente_salud(paciente,diabetes.get(),hipertension.get(),obesidad.get(),enf_renal.get(),prob_tiroides.get(),cancer.get(),prob_cardiacos.get(),anorexia_bulimia.get())
+        print(paciente_salud)
+
 
     # Funcion para cerrar la ventana
     def salir():
-        ventana_padecimientos.quit()
-        ventana_padecimientos.destroy()
+        ventana_padecimientos.quit() #Cerramos la ventana
+        ventana_padecimientos.destroy() #Destruimos el objeto
         print('Salimos...')
-        sys.exit()
+        sys.exit() #Cerramos desde el sistema la ventana
 
     def crear_menu():
         # Configurar el menu principal
@@ -172,7 +208,7 @@ def ventana_padecimientos(paciente:Paciente):
 
     # N (arriba), E(derecha), S(abajo), W(izquierda)
     boton1 = tk.Button(ventana_padecimientos, text='Enviar', command=enviar_informacion_paciente, font=font_size)
-    boton1.grid(row=7, column=2, padx=40, pady=40)
+    boton1.grid(row=9,column=1)
     crear_menu()
     # Iniciamos la ventana (esta linea se debe ejecutar al final)
     # Si se ejecuta antes, no se muestran los cambios anteriores
