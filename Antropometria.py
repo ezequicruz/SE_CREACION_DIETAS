@@ -12,6 +12,7 @@ from tkinter.font import Font
 from  Paciente import Paciente,Paciente_salud
 from tkinter import *
 from  Paciente import Paciente_salud
+from  LecturaJson import Requerimiento_calorico
 def harris_benedict(paciente:Paciente):
     if paciente.sexo == 'm':
         geb = 655.1 + (9.563*paciente.peso_actual) + (1.849*paciente.talla_cm) - (4.67*paciente.edad)
@@ -190,6 +191,9 @@ def ventana_padecimientos(paciente:Paciente):
         requerimiento_calorico = harris_benedict(paciente) #Calculamos el requerimiento calorico del paciente
         paciente_salud = Paciente_salud(paciente,diabetes.get(),hipertension.get(),obesidad.get(),enf_renal.get(),prob_tiroides.get(),cancer.get(),prob_cardiacos.get(),anorexia_bulimia.get())
         print(paciente_salud)
+        requerimiento_paciente = Requerimiento_calorico(requerimiento_calorico,'RR')
+        mensaje1 = requerimiento_paciente.__str__()
+        messagebox.showinfo('DATOS DEL PACIENTE', mensaje1)
 
 
     # Funcion para cerrar la ventana

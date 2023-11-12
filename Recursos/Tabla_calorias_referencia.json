@@ -52,7 +52,7 @@
     "%real": [0,1859,73,62,264]
   },
   {
-    "nombre": "1900-Alto Proteico",
+    "nombre": "1900-Bajo Carbohidratos",
     "Cereal": [10,700,20,0,150],
     "Leche":  [1,152,8,8,12],
     "POA":    [5,375,35,15,0],
@@ -65,7 +65,7 @@
     "%real": [0,1907,76,39,262]
   },
   {
-    "nombre": "2000-Regular",
+    "nombre": "2000-Bajo Carbohidratos",
     "Cereal": [10,700,20,0,150],
     "Leche":  [1,152,8,8,12],
     "POA":    [5,375,35,25,0],
@@ -78,7 +78,7 @@
     "%real": [0,1992,75,64,272]
   },
   {
-    "nombre": "2000-Alto Proteico",
+    "nombre": "2000-Regular",
     "Cereal": [9,560,18,0,135],
     "Leche":  [2,304,16,16,24],
     "POA":    [4,300,28,20,0],
@@ -91,7 +91,7 @@
     "%real": [0,2014,75,67,274]
   },
   {
-    "nombre": "2100-Regular",
+    "nombre": "2100-Bajo Carbohidratos",
     "Cereal": [11,770,22,0,165],
     "Leche":  [1,152,8,8,12],
     "POA":    [5,375,35,25,0],
@@ -104,7 +104,7 @@
     "%real": [0,2062,78,64,287]
   },
   {
-    "nombre": "2100-Alto Proteico",
+    "nombre": "2100-Regular",
     "Cereal": [9,360,18,0,135],
     "Leche":  [2,304,16,16,24],
     "POA":    [5,375,35,25,0],
