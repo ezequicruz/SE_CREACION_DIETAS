@@ -11,9 +11,9 @@ from tkinter import ttk, messagebox, Menu
 from tkinter.font import Font
 from  Paciente import Paciente,Paciente_salud
 from tkinter import *
-from  Paciente import Paciente_salud
 from  LecturaJson import Requerimiento_calorico
-def harris_benedict(paciente:Paciente):
+from ventana_seleccion_dieta import ventana_seleccion_dieta
+def harris_benedict(paciente:Paciente): #Formula de harris_benedict para calcular el requerimiento calorico
     if paciente.sexo == 'm':
         geb = 655.1 + (9.563*paciente.peso_actual) + (1.849*paciente.talla_cm) - (4.67*paciente.edad)
     else:
@@ -22,14 +22,6 @@ def harris_benedict(paciente:Paciente):
     return requerimiento_calorico
 paciente1 = Paciente(72,1.82,16,25,21,'h',30)
 print(harris_benedict(paciente1))
-def tipo_dieta_deseada(objetivo:str,paciente:Paciente):
-    if objetivo == 'bajar de peso':
-        dieta = 'baja en carbohidratos'
-    else:
-        if paciente.frecuencia_actividad >= 40:
-            dieta = 'alta en carbohidratos'
-        else:
-            dieta = 'regular' #Distribucion equitativa
 def ventana_inicial():
     # Creamos un objeto la clase Tk
     ventana_inicial = tk.Tk()
@@ -98,7 +90,6 @@ def ventana_inicial():
     # Creamos un metodo evento_click
     def enviar_informacion_paciente():
         # Recuperamos la informacion de los text box para inicializar nuestro objeto paciente
-        print(txt_edad.get())
         peso = float(txt_peso.get())
         talla = float(txt_talla.get())
         porcien_grasa = int(txt_porcien_grasa.get())
@@ -110,6 +101,7 @@ def ventana_inicial():
         mensaje1 = nuevo_paciente.__str__()
         messagebox.showinfo('DATOS DEL PACIENTE', mensaje1)
         print(nuevo_paciente)
+        print(''.center(100,'-'))
         ventana_inicial.quit()
         ventana_inicial.destroy()
         ventana_padecimientos(nuevo_paciente)
@@ -144,7 +136,7 @@ def ventana_padecimientos(paciente:Paciente):
     # Modificamos el tamaño de la ventana
     ventana_padecimientos.geometry('800x600')
     # Cambiamos el nombre de la ventana
-    ventana_padecimientos.title('INICIO - RECOPILACION DE DATOS DEL PACIENTE')
+    ventana_padecimientos.title('PADECIMIENTOS DEL PACIENTE')
     # Configuramos el icono de la ventana
     ventana_padecimientos.iconbitmap('../eze_icon.ico')
     # Configuramos el grid
@@ -189,11 +181,12 @@ def ventana_padecimientos(paciente:Paciente):
     def enviar_informacion_paciente():
 
         requerimiento_calorico = harris_benedict(paciente) #Calculamos el requerimiento calorico del paciente
-        paciente_salud = Paciente_salud(paciente,diabetes.get(),hipertension.get(),obesidad.get(),enf_renal.get(),prob_tiroides.get(),cancer.get(),prob_cardiacos.get(),anorexia_bulimia.get())
+        paciente_salud = Paciente_salud(paciente, diabetes.get(), hipertension.get(), obesidad.get(), enf_renal.get(),
+                                        prob_tiroides.get(), cancer.get(), prob_cardiacos.get(), anorexia_bulimia.get())
         print(paciente_salud)
-        requerimiento_paciente = Requerimiento_calorico(requerimiento_calorico,'RR')
-        mensaje1 = requerimiento_paciente.__str__()
-        messagebox.showinfo('DATOS DEL PACIENTE', mensaje1)
+        ventana_padecimientos.quit()
+        ventana_padecimientos.destroy()
+        ventana_seleccion_dieta(paciente_salud, requerimiento_calorico)
 
 
     # Funcion para cerrar la ventana

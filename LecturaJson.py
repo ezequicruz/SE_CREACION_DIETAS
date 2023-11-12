@@ -7,7 +7,7 @@ with open("Recursos/Tabla_calorias_referencia.json", 'r') as tabla_referencia:
 
 
 class Requerimiento_calorico(): #Clase para obtener la tabla de requerimiento calorico
-    def __init__(self, require_cal: int, tipo_requirement: str):
+    def __init__(self, require_cal: float, tipo_requirement: str):
         i = 0 #Variable auxiliar para obtener la tabla solicitada
         if require_cal < 1900: # Si el requerimiento es menor a 1900kcal usamos las tablas de 1800 kcal
             if tipo_requirement == 'LC': #Si el paciente necesita bajo en carbohidratos
