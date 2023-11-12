@@ -45,23 +45,19 @@ class Requerimiento_calorico(): #Clase para obtener la tabla de requerimiento ca
         elif require_cal < 2800:# Si el requerimiento es menor a 2800 kcal usamos las tablas de 2700 kcal
             i = 14 # Tabla 16
 
-        self.requerimiento = datos[i]['nombre']
-        self.cereal = datos[i]['Cereal'].copy()
-        self.leche = datos[i]['Leche'].copy()
-        self.poa = datos[i]['POA'].copy()
-        self.leguminosas = datos[i]['Leguminosas'].copy()
-        self.fruta = datos[i]['Fruta'].copy()
-        self.verduras = datos[i]['Verduras'].copy()
-        self.grasa = datos[i]['Grasa'].copy()
-        self.azucar = datos[i]['Azucares'].copy()
-        self.porcien_calculado = datos[i]['%calculado'].copy()
-        self.porcien_real = datos[i]['%real'].copy()
+        self.requerimiento = datos[i]['nombre'] #Nombre de la tabla de requerimiento calorico
+        self.cereal = datos[i]['Cereal'].copy() #Lista de la fila de cereales
+        self.leche = datos[i]['Leche'].copy() #Lista de la fila de leche
+        self.poa = datos[i]['POA'].copy() #Lista de la fila POA (productos de origen animal)
+        self.leguminosas = datos[i]['Leguminosas'].copy() # Lista de la fila de leguminosas
+        self.fruta = datos[i]['Fruta'].copy() #Lista de la fila de fruta
+        self.verduras = datos[i]['Verduras'].copy() #Lista de la fila verduras
+        self.grasa = datos[i]['Grasa'].copy() #Lista de la fila grasa
+        self.azucar = datos[i]['Azucares'].copy() #Lista de la fila azucares
+        self.porcien_calculado = datos[i]['%calculado'].copy() #Lista de la fila %calculado
+        self.porcien_real = datos[i]['%real'].copy() #Lista de la fila %real
 
-    def __str__(self):
+    def __str__(self): #Sobreescritura del metodo str
         return (f'Requerimiento: {self.requerimiento} | Cereal: {self.cereal} | Leche: {self.leche} | POA: {self.poa}\n'
                 f'Leguminosas: {self.leguminosas} | Fruta: {self.fruta} | Verduras: {self.verduras} | Grasa:{self.grasa}\n'
                 f'Azucar: {self.azucar} | %Calculado: {self.porcien_calculado} | %Real: {self.porcien_real}')
-
-
-requerimiento1 = Requerimiento_calorico(1800, 'AP')
-print(requerimiento1)

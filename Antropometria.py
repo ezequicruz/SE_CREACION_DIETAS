@@ -180,7 +180,7 @@ def ventana_padecimientos(paciente:Paciente):
     # Creamos un metodo evento_click
     def enviar_informacion_paciente():
 
-        requerimiento_calorico = harris_benedict(paciente) #Calculamos el requerimiento calorico del paciente
+        requerimiento_calorico = round(harris_benedict(paciente),2) #Calculamos el requerimiento calorico del paciente, redondeamos a 2 decimales
         paciente_salud = Paciente_salud(paciente, diabetes.get(), hipertension.get(), obesidad.get(), enf_renal.get(),
                                         prob_tiroides.get(), cancer.get(), prob_cardiacos.get(), anorexia_bulimia.get())
         print(paciente_salud)

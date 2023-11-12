@@ -31,31 +31,31 @@ def ventana_seleccion_dieta(paciente_salud: Paciente_salud, requerimiento_calori
     lbl_dieta_header = tk.Label(ventana, text='El tipo de dieta sugerido es:', font=font_size, justify=tk.LEFT)
     lbl_dieta = tk.Label(ventana, text='', font=font_size, justify=tk.LEFT)
 
-    def command_sano():
+    def command_sano(): #Lectura de los radio button si el paciente es sano
         lbl_dieta_header.grid(row=4, column=0, columnspan=2, pady=10, sticky='W')
         lbl_dieta.grid(row=5, column=0, columnspan=2, pady=10, sticky='W')
-        global requerimiento_paciente
-        if seleccion_sano.get() == 1:
+        global requerimiento_paciente #Variable global para especificar el requerimiento calorico
+        if seleccion_sano.get() == 1: # Si el paciente selecciona bajar de peso tendra una dieta baja en carbohidratos
             requerimiento_paciente = Requerimiento_calorico(requerimiento_calorico, 'LC')
-        else:
+        else: # Si el paciente selecciona mantener peso tendra una dieta regular
             requerimiento_paciente = Requerimiento_calorico(requerimiento_calorico, 'RR')
         lbl_dieta.config(text=f'Requerimiento calculado: {requerimiento_calorico}\n'
                               f'Requerimiento relativo: {requerimiento_paciente.requerimiento}\n'
                               f'NOTA IMPORTANTE: EN NINGUN MOMENTO ESTE ES UN DIAGNOSTICO OFICIAL\nCONSULTE UN ESPECIALISTA PARA UN DIAGNOSTICO VALIDO')
 
-    def command_tiroides():
-        global requerimiento_paciente
-        global extras_dieta
+    def command_tiroides(): #Lectura de los radio button si el paciente tiene tiroides
+        global requerimiento_paciente #Variable global para especificar el requerimiento calorico
+        global extras_dieta #Variable global para especificar alguna especificacion en su dieta
         lbl_dieta_header.grid(row=4, column=0, columnspan=2, pady=10, sticky='W')
         lbl_dieta.grid(row=5, column=0, columnspan=2, pady=10, sticky='W')
-        if seleccion_tiroides.get() == 1:
+        if seleccion_tiroides.get() == 1: #Si el paciente selecciona hipotiroidismo necesita una dieta baja en carbohidratos
             requerimiento_paciente = Requerimiento_calorico(requerimiento_calorico, 'LC')
             extras_dieta = 'ricos en yodo,'
-        else:
+        else: #Si el paciente selecciona hipertiroidismo necesita una dieta baja en carbohidratos
             requerimiento_paciente = Requerimiento_calorico(requerimiento_calorico, 'RR')
             extras_dieta = 'ricos en yodo,sin sal,'
 
-    if paciente_salud.sano:
+    if paciente_salud.sano: # Si el paciente sano pregunta cual es su objetivo
         lbl_sano = tk.Label(ventana, text='Seleccione su objetivo', justify=tk.LEFT)
         lbl_sano.grid(row=0, column=0, sticky='W')
         seleccion_sano = IntVar()
@@ -65,7 +65,7 @@ def ventana_seleccion_dieta(paciente_salud: Paciente_salud, requerimiento_calori
         rbnBajar_mantener = ttk.Radiobutton(ventana, text='Mantener peso', variable=seleccion_sano,
                                             command=command_sano, value=2)
         rbnBajar_mantener.grid(row=2, column=1, sticky='W')
-    else:
+    else: #Si el paciente no esta sano revisa que enfermedades tiene
         extras_dieta = ""
         if paciente_salud.diabetes or paciente_salud.obesidad:  # Si el paciente tiene obesidad o diabetes necesita una dieta baja en carbohidratos
             requerimiento_paciente = Requerimiento_calorico(requerimiento_calorico, 'LC')
@@ -96,14 +96,14 @@ def ventana_seleccion_dieta(paciente_salud: Paciente_salud, requerimiento_calori
     # Creamos un metodo evento_click
     def enviar_informacion_paciente():
         global requerimiento_paciente
-        if paciente_salud.tiroides:
+        if paciente_salud.tiroides: #Mostramos en una etiqueta la informacion
             lbl_dieta.config(text=f'Requerimiento calculado: {requerimiento_calorico}\n'
                                   f'Requerimiento relativo: {requerimiento_paciente.requerimiento}\n'
                                   f'Recomendaciones: {extras_dieta}\n'
                                   f'NOTA IMPORTANTE: EN NINGUN MOMENTO ESTE ES UN DIAGNOSTICO OFICIAL,\nCONSULTE UN ESPECIALISTA PARA UN DIAGNOSTICO VALIDO')
             print(extras_dieta)
 
-    if not (paciente_salud.tiroides or paciente_salud.sano):
+    if not (paciente_salud.tiroides or paciente_salud.sano): #Mostramos en una etiqueta la informacion
         lbl_dieta.config(text=f'Requerimiento calculado: {requerimiento_calorico} kcal\n'
                               f'Requerimiento relativo: {requerimiento_paciente.requerimiento}\n'
                               f'Recomendaciones: {extras_dieta}\n'
@@ -128,8 +128,8 @@ def ventana_seleccion_dieta(paciente_salud: Paciente_salud, requerimiento_calori
         boton1 = tk.Button(ventana, text='Enviar', command=enviar_informacion_paciente, font=font_size)
         boton1.grid(row=3, column=1, padx=40, pady=40)
     else:
-        lbl_dieta_header.grid(row=1, column=0, pady=10, sticky='W')
-        lbl_dieta.grid(row=2, column=0, columnspan=2, pady=10, sticky='W')
+        lbl_dieta_header.grid(row=3, column=0, pady=10, sticky='W')
+        lbl_dieta.grid(row=4, column=0, columnspan=2, pady=10, sticky='W')
     crear_menu()
     # Iniciamos la ventana (esta linea se debe ejecutar al final)
     # Si se ejecuta antes, no se muestran los cambios anteriores
