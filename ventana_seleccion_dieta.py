@@ -28,7 +28,7 @@ def ventana_seleccion_dieta(paciente_salud: Paciente_salud, requerimiento_calori
     # Cambiamos el nombre de la ventana
     ventana.title('SELECCION DE DIETA')
     # Configuramos el icono de la ventana
-    ventana.iconbitmap('../eze_icon.ico')
+    ventana.iconbitmap('./eze_icon.ico')
     # Configuramos el grid
     lbl_dieta_header = tk.Label(ventana, text='El tipo de dieta sugerido es:', font=font_size, justify=tk.LEFT)
     lbl_dieta = tk.Label(ventana, text='', font=font_size, justify=tk.LEFT)

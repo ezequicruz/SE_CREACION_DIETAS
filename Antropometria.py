@@ -32,7 +32,7 @@ def ventana_inicial():
     # Cambiamos el nombre de la ventana
     ventana_inicial.title('INICIO - RECOPILACION DE DATOS DEL PACIENTE')
     # Configuramos el icono de la ventana
-    ventana_inicial.iconbitmap('../eze_icon.ico')
+    ventana_inicial.iconbitmap('./eze_icon.ico')
     # Configuramos el grid
 
     # Width es la cantidad de caracteres que ocupa el textbox
@@ -138,7 +138,7 @@ def ventana_padecimientos(paciente:Paciente):
     # Cambiamos el nombre de la ventana
     ventana_padecimientos.title('PADECIMIENTOS DEL PACIENTE')
     # Configuramos el icono de la ventana
-    ventana_padecimientos.iconbitmap('../eze_icon.ico')
+    ventana_padecimientos.iconbitmap('./eze_icon.ico')
     # Configuramos el grid
 
     # Creamos checkbox con las opciones de los padecimientos mas comunes
