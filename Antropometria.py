@@ -28,7 +28,7 @@ def ventana_inicial():
     # Estilos de los elementos
     font_size = Font(family='Roboto Cn', size=12)
     # Modificamos el tamaño de la ventana
-    ventana_inicial.geometry('800x600')
+    ventana_inicial.attributes("-fullscreen",True)
     # Cambiamos el nombre de la ventana
     ventana_inicial.title('INICIO - RECOPILACION DE DATOS DEL PACIENTE')
     # Configuramos el icono de la ventana
@@ -134,7 +134,7 @@ def ventana_padecimientos(paciente:Paciente):
     # Estilos de los elementos
     font_size = Font(family='Roboto Cn', size=12)
     # Modificamos el tamaño de la ventana
-    ventana_padecimientos.geometry('800x600')
+    ventana_padecimientos.attributes("-fullscreen",True)
     # Cambiamos el nombre de la ventana
     ventana_padecimientos.title('PADECIMIENTOS DEL PACIENTE')
     # Configuramos el icono de la ventana
@@ -176,13 +176,18 @@ def ventana_padecimientos(paciente:Paciente):
     anorexia_bulimia = BooleanVar()
     opcion_anorexia_bulimia = ttk.Checkbutton(ventana_padecimientos, text="Anorexia o bulimia", variable=anorexia_bulimia, onvalue=1, offvalue=0)
     opcion_anorexia_bulimia.grid(row=8,column=1,sticky="W")
+    # Checkbox Anemia
+    anemia = BooleanVar()
+    opcion_anorexia_bulimia = ttk.Checkbutton(ventana_padecimientos, text="Anemia",
+                                              variable=anemia, onvalue=1, offvalue=0)
+    opcion_anorexia_bulimia.grid(row=9, column=1, sticky="W")
 
     # Creamos un metodo evento_click
     def enviar_informacion_paciente():
 
         requerimiento_calorico = round(harris_benedict(paciente),2) #Calculamos el requerimiento calorico del paciente, redondeamos a 2 decimales
         paciente_salud = Paciente_salud(paciente, diabetes.get(), hipertension.get(), obesidad.get(), enf_renal.get(),
-                                        prob_tiroides.get(), cancer.get(), prob_cardiacos.get(), anorexia_bulimia.get())
+                                        prob_tiroides.get(), cancer.get(), prob_cardiacos.get(), anorexia_bulimia.get(),anemia.get())
         print(paciente_salud)
         ventana_padecimientos.quit()
         ventana_padecimientos.destroy()
@@ -205,7 +210,7 @@ def ventana_padecimientos(paciente:Paciente):
 
     # N (arriba), E(derecha), S(abajo), W(izquierda)
     boton1 = tk.Button(ventana_padecimientos, text='Enviar', command=enviar_informacion_paciente, font=font_size)
-    boton1.grid(row=9,column=1)
+    boton1.grid(row=10,column=1)
     crear_menu()
     # Iniciamos la ventana (esta linea se debe ejecutar al final)
     # Si se ejecuta antes, no se muestran los cambios anteriores
