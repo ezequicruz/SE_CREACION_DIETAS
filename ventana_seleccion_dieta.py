@@ -65,7 +65,7 @@ def ventana_seleccion_dieta(paciente_salud: Paciente_salud, requerimiento_calori
         else: #Si el paciente selecciona hipertiroidismo necesita una dieta baja en carbohidratos
             requerimiento_paciente = Requerimiento_calorico(requerimiento_calorico, 'RR')
             extras_dieta.append('alimentos ricos en yodo,')
-            extras_dieta.append('alimentos sin sal')
+            extras_dieta.append('alimentos sin sal,')
 
     if paciente_salud.sano: # Si el paciente sano pregunta cual es su objetivo
         lbl_sano = tk.Label(ventana, text='Seleccione su objetivo', justify=tk.LEFT)
@@ -121,8 +121,8 @@ def ventana_seleccion_dieta(paciente_salud: Paciente_salud, requerimiento_calori
             if paciente_salud.anorexia_bulimia: #Si el paciente sufre anorexia o bulimia necesitan tomar suplementos y vitaminas
                 extras_dieta.append('suplementos y vitaminas,')
             if paciente_salud.cancer:
-                extras_dieta.append('rico en proteinas,')
-                extras_dieta.append('rico en anitoxidantes,')
+                extras_dieta.append('alimentos ricos en proteinas,')
+                extras_dieta.append('alimentos ricos en anitoxidantes,')
                 extras_dieta.append('alimentos sin sal,')
                 extras_dieta.append('alimentos bajos en grasas,')
                 extras_dieta.append('suplementos y vitaminas,')
