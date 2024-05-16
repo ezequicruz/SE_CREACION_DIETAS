@@ -178,21 +178,29 @@ def ventana_padecimientos(paciente:Paciente):
     opcion_anorexia_bulimia.grid(row=8,column=1,sticky="W")
     # Checkbox Anemia
     anemia = BooleanVar()
-    opcion_anorexia_bulimia = ttk.Checkbutton(ventana_padecimientos, text="Anemia",
-                                              variable=anemia, onvalue=1, offvalue=0)
-    opcion_anorexia_bulimia.grid(row=9, column=1, sticky="W")
+    opcion_anemia = ttk.Checkbutton(ventana_padecimientos, text="Anemia", variable=anemia, onvalue=1, offvalue=0)
+    opcion_anemia.grid(row=9, column=1, sticky="W")
+    # Checkbox Alergias
+    alergia = BooleanVar()
+    opcion_alergia = ttk.Checkbutton(ventana_padecimientos, text="Alergias a alimentos", variable=alergia, onvalue=1,offvalue=0)
+    opcion_alergia.grid(row=10, column=1, sticky="W")
 
     # Creamos un metodo evento_click
     def enviar_informacion_paciente():
-
-        requerimiento_calorico = round(harris_benedict(paciente),2) #Calculamos el requerimiento calorico del paciente, redondeamos a 2 decimales
+        requerimiento_calorico = round(harris_benedict(paciente),
+                                       2)  # Calculamos el requerimiento calorico del paciente, redondeamos a 2 decimales
         paciente_salud = Paciente_salud(paciente, diabetes.get(), hipertension.get(), obesidad.get(), enf_renal.get(),
-                                        prob_tiroides.get(), cancer.get(), prob_cardiacos.get(), anorexia_bulimia.get(),anemia.get())
+                                        prob_tiroides.get(), cancer.get(), prob_cardiacos.get(), anorexia_bulimia.get(),
+                                        anemia.get(), alergia.get())
         print(paciente_salud)
-        ventana_padecimientos.quit()
-        ventana_padecimientos.destroy()
-        ventana_seleccion_dieta(paciente_salud, requerimiento_calorico)
-
+        if(not alergia):
+            ventana_padecimientos.quit()
+            ventana_padecimientos.destroy()
+            ventana_seleccion_dieta(paciente_salud, requerimiento_calorico)
+        else:
+            ventana_padecimientos.quit()
+            ventana_padecimientos.destroy()
+            ventana_alergias(paciente,paciente_salud, requerimiento_calorico)
 
     # Funcion para cerrar la ventana
     def salir():
@@ -210,8 +218,55 @@ def ventana_padecimientos(paciente:Paciente):
 
     # N (arriba), E(derecha), S(abajo), W(izquierda)
     boton1 = tk.Button(ventana_padecimientos, text='Enviar', command=enviar_informacion_paciente, font=font_size)
-    boton1.grid(row=10,column=1)
+    boton1.grid(row=12,column=1)
     crear_menu()
     # Iniciamos la ventana (esta linea se debe ejecutar al final)
     # Si se ejecuta antes, no se muestran los cambios anteriores
     ventana_padecimientos.mainloop()
+
+def ventana_alergias(paciente:Paciente, pacienteSalud: Paciente_salud, req_calorico: float):
+    # Creamos un objeto la clase Tk
+    ventana_alergias = tk.Tk()
+    # Estilos de los elementos
+    font_size = Font(family='Roboto Cn', size=12)
+    # Modificamos el tamaño de la ventana
+    ventana_alergias.attributes("-fullscreen", True)
+    # Cambiamos el nombre de la ventana
+    ventana_alergias.title('PADECIMIENTOS DEL PACIENTE')
+    # Configuramos el icono de la ventana
+    ventana_alergias.iconbitmap('./eze_icon.ico')
+
+    # Etiqueta de instrucción
+    lbl_instruccion = tk.Label(ventana_alergias, text="Escriba los alimentos a los que es alérgico:")
+    lbl_instruccion.pack()
+
+    # Campo de texto para ingresar alergias
+    txt_alergias = tk.Text(ventana_alergias, height=5, width=30)
+    txt_alergias.pack()
+    def obtener_alergias():
+        alergias = txt_alergias.get("1.0", "end-1c")  # Obtenemos el texto ingresado en el campo de texto
+        print("Alimentos alérgicos:", alergias)
+        ventana_alergias.destroy()  # Cerramos la ventana
+
+
+    # Funcion para cerrar la ventana
+    def salir():
+        ventana_alergias.quit() #Cerramos la ventana
+        ventana_alergias.destroy() #Destruimos el objeto
+        print('Salimos...')
+        sys.exit() #Cerramos desde el sistema la ventana
+
+    def crear_menu():
+        # Configurar el menu principal
+        menu_principal = Menu(ventana_alergias)
+        menu_principal.add_command(label='Salir', command=salir)
+        # Mostramos el menu en la ventana principal
+        ventana_alergias.config(menu=menu_principal)
+
+    # N (arriba), E(derecha), S(abajo), W(izquierda)
+    boton1 = tk.Button(ventana_alergias, text='Enviar', command=obtener_alergias, font=font_size)
+    boton1.pack()
+    crear_menu()
+    # Iniciamos la ventana (esta linea se debe ejecutar al final)
+    # Si se ejecuta antes, no se muestran los cambios anteriores
+    ventana_alergias.mainloop()
