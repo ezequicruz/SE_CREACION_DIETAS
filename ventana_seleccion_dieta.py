@@ -112,32 +112,37 @@ alimentos = { #DICCIONARIO DE ALIMENTOS Y PROCIONES
 }
 
 
-def elegir_alimentos_de_categoria(categoria, cantidad):
-    if categoria not in alimentos:
-        return "Categoría no encontrada."
+def elegir_alimentos_de_categoria(categoria, cantidad, alergias): #Funcion para filtrar y escoger los alimentos
 
-    alimentos_categoria = alimentos[categoria]
-    if cantidad > len(alimentos_categoria):
-        return f"Cantidad solicitada excede el número de alimentos disponibles en la categoría {categoria}."
+    if categoria not in alimentos: #Revisamos si la categoria esta dentro del grupo de alimentos
+        return "Categoría no encontrada." #Si no esta la categoria se regresa el mensaje de que no se encontro
 
-    seleccionados = random.sample(alimentos_categoria, cantidad)
+    alimentos_categoria = alimentos[categoria] #Agregamos la lista de alimentos de la categoria
+    if not (alergias == ''): #Revisamos si la cadena de alergias esta vacia
+        lista_alergias = alergias.split(',') #Si no esta vacia, hacemos un split
+        if alergias: #Si la lista de alergias tiene al menos un elemento
+            # Filtrar alimentos que no contengan alergias
+            alimentos_filtrados = [alimento for alimento in alimentos_categoria
+                                if not any(alergia in alimento[0] for alergia in lista_alergias)]
+        else:
+            alimentos_filtrados = alimentos_categoria # Si la lista de alergias esta vacia entonces la lista no cambia
+
+        if cantidad > len(alimentos_filtrados): # si al cantidad de alimentos solicitados es mayor al numero de alimentos despues del filtro
+            return f"Cantidad solicitada excede el número de alimentos disponibles sin alergias en la categoría {categoria}." #Se regresa un mensaje notificandolo
+        seleccionados = random.sample(alimentos_filtrados, cantidad)
+    else:
+        seleccionados = random.sample(alimentos_categoria, cantidad) #Si no hay alergias entonces se puede utilizar toda la lista de alimentos
     resultado = ''
     for nombre, porcion in seleccionados:
-        resultado += f"{nombre} {porcion}, "
+        resultado += f"{nombre} {porcion}, " #Se agregan los alimentos y las porciones
 
     return resultado
-
-
-# Ejemplo de llamada a la función con una categoría específica y cantidad de alimentos
-categoria = input("Ingrese el nombre de la categoría que desea seleccionar: ")
-cantidad = int(input("Ingrese la cantidad de alimentos que desea seleccionar: "))
-resultado = elegir_alimentos_de_categoria(categoria, cantidad)
-print(resultado)
 
 requerimiento_paciente = None
 extras_dieta = []
 sugerencias_observaciones = ''
 def ventana_seleccion_dieta(paciente: Paciente,paciente_salud: Paciente_salud, requerimiento_calorico, alergias:str):
+    alergias_lista = alergias.split(',')
     global requerimiento_paciente, extras_dieta, sugerencias_observaciones
 
     # Creamos un objeto la clase Tk
@@ -165,14 +170,14 @@ def ventana_seleccion_dieta(paciente: Paciente,paciente_salud: Paciente_salud, r
         lbl_dieta.config(text=f'Requerimiento calculado: {requerimiento_calorico} kcal\n'
                               f'Requerimiento relativo: {requerimiento_paciente.requerimiento}\n'
                               f'Puntos de equivalentes:\n'
-                              f'Cereal {requerimiento_paciente.cereal[0]}, {elegir_alimentos_de_categoria("Cereal", requerimiento_paciente.cereal[0])}\n'
-                              f'Leche {requerimiento_paciente.leche[0]}, {elegir_alimentos_de_categoria("Leche", requerimiento_paciente.leche[0])}\n'
-                              f'POA {requerimiento_paciente.poa[0]}, {elegir_alimentos_de_categoria("POA", requerimiento_paciente.poa[0])}\n'
-                              f'Leguminosas {requerimiento_paciente.leguminosas[0]}, {elegir_alimentos_de_categoria("Leguminosas", requerimiento_paciente.leguminosas[0])}\n'
-                              f'Fruta {requerimiento_paciente.fruta[0]}, {elegir_alimentos_de_categoria("Fruta", requerimiento_paciente.fruta[0])}\n'
-                              f'Verdura {requerimiento_paciente.verduras[0]}, {elegir_alimentos_de_categoria("Verduras", requerimiento_paciente.verduras[0])}\n'
-                              f'Grasa {requerimiento_paciente.grasa[0]}, {elegir_alimentos_de_categoria("Grasa", requerimiento_paciente.grasa[0])}\n'
-                              f'Azucar {requerimiento_paciente.azucar[0]}, {elegir_alimentos_de_categoria("Azucar", requerimiento_paciente.azucar[0])}\n\n'
+                              f'Cereal {requerimiento_paciente.cereal[0]}, {elegir_alimentos_de_categoria("Cereal", requerimiento_paciente.cereal[0],alergias)}\n'
+                              f'Leche {requerimiento_paciente.leche[0]}, {elegir_alimentos_de_categoria("Leche", requerimiento_paciente.leche[0],alergias)}\n'
+                              f'POA {requerimiento_paciente.poa[0]}, {elegir_alimentos_de_categoria("POA", requerimiento_paciente.poa[0],alergias)}\n'
+                              f'Leguminosas {requerimiento_paciente.leguminosas[0]}, {elegir_alimentos_de_categoria("Leguminosas", requerimiento_paciente.leguminosas[0],alergias)}\n'
+                              f'Fruta {requerimiento_paciente.fruta[0]}, {elegir_alimentos_de_categoria("Fruta", requerimiento_paciente.fruta[0],alergias)}\n'
+                              f'Verdura {requerimiento_paciente.verduras[0]}, {elegir_alimentos_de_categoria("Verduras", requerimiento_paciente.verduras[0],alergias)}\n'
+                              f'Grasa {requerimiento_paciente.grasa[0]}, {elegir_alimentos_de_categoria("Grasa", requerimiento_paciente.grasa[0],alergias)}\n'
+                              f'Azucar {requerimiento_paciente.azucar[0]}, {elegir_alimentos_de_categoria("Azucar", requerimiento_paciente.azucar[0],alergias)}\n\n'
                               f'NOTA IMPORTANTE: EN NINGUN MOMENTO ESTE ES UN DIAGNOSTICO OFICIAL\nCONSULTE UN ESPECIALISTA PARA UN DIAGNOSTICO VALIDO')
 
     def command_tiroides(): #Lectura de los radio button si el paciente tiene tiroides
@@ -262,14 +267,14 @@ def ventana_seleccion_dieta(paciente: Paciente,paciente_salud: Paciente_salud, r
             lbl_dieta.config(text=f'Requerimiento calculado: {requerimiento_calorico}\n'
                                   f'Requerimiento relativo: {requerimiento_paciente.requerimiento}\n'
                                   f'Puntos de equivalentes:\n'
-                                  f'Cereal {requerimiento_paciente.cereal[0]}\n'
-                                  f'Leche {requerimiento_paciente.leche[0]}\n'
-                                  f'POA {requerimiento_paciente.poa[0]}\n'
-                                  f'Leguminosas {requerimiento_paciente.leguminosas[0]}\n'
-                                  f'Fruta {requerimiento_paciente.fruta[0]}\n'
-                                  f'Verdura {requerimiento_paciente.verduras[0]}\n'
-                                  f'Grasa {requerimiento_paciente.grasa[0]}\n'
-                                  f'Azucar {requerimiento_paciente.azucar[0]}\n\n'
+                             f'Cereal {requerimiento_paciente.cereal[0]}, {elegir_alimentos_de_categoria("Cereal", requerimiento_paciente.cereal[0],alergias)}\n'
+                              f'Leche {requerimiento_paciente.leche[0]}, {elegir_alimentos_de_categoria("Leche", requerimiento_paciente.leche[0],alergias)}\n'
+                              f'POA {requerimiento_paciente.poa[0]}, {elegir_alimentos_de_categoria("POA", requerimiento_paciente.poa[0],alergias)}\n'
+                              f'Leguminosas {requerimiento_paciente.leguminosas[0]}, {elegir_alimentos_de_categoria("Leguminosas", requerimiento_paciente.leguminosas[0],alergias)}\n'
+                              f'Fruta {requerimiento_paciente.fruta[0]}, {elegir_alimentos_de_categoria("Fruta", requerimiento_paciente.fruta[0],alergias)}\n'
+                              f'Verdura {requerimiento_paciente.verduras[0]}, {elegir_alimentos_de_categoria("Verduras", requerimiento_paciente.verduras[0],alergias)}\n'
+                              f'Grasa {requerimiento_paciente.grasa[0]}, {elegir_alimentos_de_categoria("Grasa", requerimiento_paciente.grasa[0],alergias)}\n'
+                              f'Azucar {requerimiento_paciente.azucar[0]}, {elegir_alimentos_de_categoria("Azucar", requerimiento_paciente.azucar[0],alergias)}\n\n'
                                   f'Observaciones: {sugerencias_observaciones}\n\n'
                                   f'NOTA IMPORTANTE: EN NINGUN MOMENTO ESTE ES UN DIAGNOSTICO OFICIAL,\nCONSULTE UN ESPECIALISTA PARA UN DIAGNOSTICO VALIDO')
             print(extras_dieta)
@@ -282,14 +287,14 @@ def ventana_seleccion_dieta(paciente: Paciente,paciente_salud: Paciente_salud, r
         lbl_dieta.config(text=f'Requerimiento calculado: {requerimiento_calorico} kcal\n'
                               f'Requerimiento relativo: {requerimiento_paciente.requerimiento}\n'
                               f'Puntos de equivalentes:\n'
-                              f'Cereal {requerimiento_paciente.cereal[0]}\n'
-                              f'Leche {requerimiento_paciente.leche[0]}\n'
-                              f'POA {requerimiento_paciente.poa[0]}\n'
-                              f'Leguminosas {requerimiento_paciente.leguminosas[0]}\n'
-                              f'Fruta {requerimiento_paciente.fruta[0]}\n'
-                              f'Verdura {requerimiento_paciente.verduras[0]}\n'
-                              f'Grasa {requerimiento_paciente.grasa[0]}\n'
-                              f'Azucar {requerimiento_paciente.azucar[0]}\n\n'
+                              f'Cereal {requerimiento_paciente.cereal[0]}, {elegir_alimentos_de_categoria("Cereal", requerimiento_paciente.cereal[0],alergias)}\n'
+                              f'Leche {requerimiento_paciente.leche[0]}, {elegir_alimentos_de_categoria("Leche", requerimiento_paciente.leche[0],alergias)}\n'
+                              f'POA {requerimiento_paciente.poa[0]}, {elegir_alimentos_de_categoria("POA", requerimiento_paciente.poa[0],alergias)}\n'
+                              f'Leguminosas {requerimiento_paciente.leguminosas[0]}, {elegir_alimentos_de_categoria("Leguminosas", requerimiento_paciente.leguminosas[0],alergias)}\n'
+                              f'Fruta {requerimiento_paciente.fruta[0]}, {elegir_alimentos_de_categoria("Fruta", requerimiento_paciente.fruta[0],alergias)}\n'
+                              f'Verdura {requerimiento_paciente.verduras[0]}, {elegir_alimentos_de_categoria("Verduras", requerimiento_paciente.verduras[0],alergias)}\n'
+                              f'Grasa {requerimiento_paciente.grasa[0]}, {elegir_alimentos_de_categoria("Grasa", requerimiento_paciente.grasa[0],alergias)}\n'
+                              f'Azucar {requerimiento_paciente.azucar[0]}, {elegir_alimentos_de_categoria("Azucar", requerimiento_paciente.azucar[0],alergias)}\n\n'
                               f'Observaciones: {sugerencias_observaciones}\n\n'
                               f'NOTA IMPORTANTE: EN NINGUN MOMENTO ESTE ES UN DIAGNOSTICO OFICIAL,\nCONSULTE UN ESPECIALISTA PARA UN DIAGNOSTICO VALIDO')
 
