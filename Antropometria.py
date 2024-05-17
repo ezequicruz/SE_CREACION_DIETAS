@@ -193,10 +193,10 @@ def ventana_padecimientos(paciente:Paciente):
                                         prob_tiroides.get(), cancer.get(), prob_cardiacos.get(), anorexia_bulimia.get(),
                                         anemia.get(), alergia.get())
         print(paciente_salud)
-        if(not alergia):
+        if(not alergia.get()):
             ventana_padecimientos.quit()
             ventana_padecimientos.destroy()
-            ventana_seleccion_dieta(paciente_salud, requerimiento_calorico)
+            ventana_seleccion_dieta(paciente,paciente_salud, requerimiento_calorico, '')
         else:
             ventana_padecimientos.quit()
             ventana_padecimientos.destroy()
@@ -237,7 +237,7 @@ def ventana_alergias(paciente:Paciente, pacienteSalud: Paciente_salud, req_calor
     ventana_alergias.iconbitmap('./eze_icon.ico')
 
     # Etiqueta de instrucción
-    lbl_instruccion = tk.Label(ventana_alergias, text="Escriba los alimentos a los que es alérgico:")
+    lbl_instruccion = tk.Label(ventana_alergias, text="Escriba los alimentos a los que es alérgico (en minusculas y separados por comas):")
     lbl_instruccion.pack()
 
     # Campo de texto para ingresar alergias
@@ -246,7 +246,9 @@ def ventana_alergias(paciente:Paciente, pacienteSalud: Paciente_salud, req_calor
     def obtener_alergias():
         alergias = txt_alergias.get("1.0", "end-1c")  # Obtenemos el texto ingresado en el campo de texto
         print("Alimentos alérgicos:", alergias)
-        ventana_alergias.destroy()  # Cerramos la ventana
+        ventana_padecimientos.quit()
+        ventana_padecimientos.destroy()
+        ventana_seleccion_dieta(paciente,pacienteSalud, req_calorico, alergias)
 
 
     # Funcion para cerrar la ventana

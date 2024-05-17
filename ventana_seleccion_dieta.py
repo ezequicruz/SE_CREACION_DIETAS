@@ -12,11 +12,97 @@ from tkinter.font import Font
 from Paciente import Paciente, Paciente_salud
 from tkinter import *
 from LecturaJson import Requerimiento_calorico
+alimentos = {
+    'Leche': [
+        ['leche entera', '1 taza o 240 ml'],
+        ['leche entera en polvo', '1/2 taza o 3 cdas.'],
+        ['leche descremada', '1 taza o 240 ml'],
+        ['leche evaporada', '1/2 taza'],
+        ['leches acidificadas', '1 taza'],
+        ['yogurt natural', '1 taza']
+    ],
+    'Cereales': [
+        ['arroz cocido', '1/2 taza'],
+        ['pasta para sopa', '1/2 taza'],
+        ['hojuelas de avena', '1/2 taza'],
+        ['maiz palomero', '3 tazas'],
+        ['harina de arroz', '1 1/2 cdas.'],
+        ['harina de trigo', '2 cdas.'],
+        ['maicena', '2 cdas'],
+        ['harina de maiz', '2 cdas']
+    ],
+    'POA': [
+        ['huevo entero', '1 pza (Maximo 3 por semana)'],
+        ['pollo', '30 g'],
+        ['pavo', '30 g'],
+        ['falda de res', '30 g'],
+        ['filete de res', '30 g'],
+        ['chuleta de res', '30 g'],
+        ['lomo y espaldilla de cerdo', '30 g'],
+        ['sardina drenada', '2 pzas'],
+        ['atún drenado', '30 g'],
+    ],
+    'Leguminosas':[
+        ['frijol', '1/2 taza'],
+        ['frijol de soya', '1/2 taza'],
+        ['garbanzo', '1/2 taza'],
+        ['lentejas', '1/2 taza'],
+        ['chicharos', '1/2 taza'],
+        ['germinado de soya', '1 taza'],
+    ],
+    'Fruta':[
+        ['ciruela', '3 pza'],
+        ['durazno', '1 pza'],
+        ['fresa', '1 taza'],
+        ['guayaba', '2 pzas'],
+        ['mango', '1/2 pza'],
+        ['naranja', '1 pza'],
+        ['uvas', '10 pzas'],
+    ],
+    'Verdura':[
+        ['acelgas', '1 tza'],
+        ['brocoli', '1 tza'],
+        ['col', '1 tza'],
+        ['espinacas', '1 tza'],
+        ['jitomate', '1 tza'],
+        ['lechuga', '1 tza'],
+        ['nopales', '1 tza'],
+        ['pepino', '1 tza'],
+        ['tomate', '1 tza'],
+    ],
+    'Grasa':[
+        ['crema', '1 cda'],
+        ['queso crema', '1 cda'],
+        ['pepitas', '1 cda'],
+        ['manteca de cerdo', '1 cda'],
+        ['mayonesa', '1 cda'],
+        ['aceitede maiz', '1 cda'],
+        ['aceite de ajonjoli', '1 cda'],
+        ['aceite de soya', '1 cda'],
+        ['margarina', '1 cda'],
+        ['mantequilla', '1 cda'],
+        ['cacahuates', '6 pzas'],
+    ],
+    'Azucar': [
+        ['Ate', '1 rebanada'],
+        ['Azucar', '2 cda'],
+        ['Cajeta', '1 cda'],
+        ['Chocolate en polvo', '1 cda'],
+        ['Caramelos', '1 pza'],
+        ['Frutas en almibar', '1 pza'],
+        ['Helado de crema', '1/4 taza'],
+        ['Jugo de fruta embotellado', '1/3 tza'],
+        ['Leche condensada', '1 cda'],
+        ['Mermelada', '1 cda'],
+        ['Miel de abeja', '1 cda'],
+        ['Piloncillo', '1 cda'],
+    ]
+}
 
 requerimiento_paciente = None
 extras_dieta = []
 sugerencias_observaciones = ''
-def ventana_seleccion_dieta(paciente_salud: Paciente_salud, requerimiento_calorico):
+def ventana_seleccion_dieta(paciente: Paciente,paciente_salud: Paciente_salud, requerimiento_calorico, alergias:str):
     global requerimiento_paciente, extras_dieta, sugerencias_observaciones
 
     # Creamos un objeto la clase Tk
