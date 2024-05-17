@@ -45,7 +45,7 @@ def ventana_inicial():
     # Text box peso
     txt_peso = ttk.Entry(ventana_inicial, width=30, font=font_size)
     txt_peso.grid(row=1, column=1, pady=10)
-    txt_peso.insert(0, '71.6')
+    txt_peso.insert(0, '72.8')
     # Etiqueta peso
     lbl_peso = tk.Label(ventana_inicial, text='Ingresa tu peso en kg (Ej. 71.6):', font=font_size)
     lbl_peso.grid(row=1, column=0, sticky='W', pady=10)
