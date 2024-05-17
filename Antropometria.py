@@ -245,10 +245,10 @@ def ventana_alergias(paciente:Paciente, pacienteSalud: Paciente_salud, req_calor
     txt_alergias.pack()
     def obtener_alergias():
         alergias = txt_alergias.get("1.0", "end-1c")  # Obtenemos el texto ingresado en el campo de texto
-        print("Alimentos alérgicos:", alergias)
-        ventana_padecimientos.quit()
-        ventana_padecimientos.destroy()
-        ventana_seleccion_dieta(paciente,pacienteSalud, req_calorico, alergias)
+        print("Alimentos alérgicos:", alergias.lower())
+        ventana_alergias.quit()
+        ventana_alergias.destroy()
+        ventana_seleccion_dieta(paciente,pacienteSalud, req_calorico, alergias.lower())
 
 
     # Funcion para cerrar la ventana

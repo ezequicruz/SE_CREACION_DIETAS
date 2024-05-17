@@ -4,6 +4,7 @@
 # CRUZ JUAREZ EZEQUIEL AMADO
 # SISTEMAS EXPERTOS
 import sys
+import random
 # GUI
 # Importacion del modulo y componentes de tkinter
 import tkinter as tk
@@ -12,8 +13,8 @@ from tkinter.font import Font
 from Paciente import Paciente, Paciente_salud
 from tkinter import *
 from LecturaJson import Requerimiento_calorico
-alimentos = {
-    'Leche': [
+alimentos = { #DICCIONARIO DE ALIMENTOS Y PROCIONES
+    'Leche': [ #GRUPO DE ALIMENTOS PERTENECIENTES A LOS LACTEOS
         ['leche entera', '1 taza o 240 ml'],
         ['leche entera en polvo', '1/2 taza o 3 cdas.'],
         ['leche descremada', '1 taza o 240 ml'],
@@ -21,7 +22,7 @@ alimentos = {
         ['leches acidificadas', '1 taza'],
         ['yogurt natural', '1 taza']
     ],
-    'Cereales': [
+    'Cereal': [ #GRUPO DE ALIMENTOS PERTENECIENTES A LOS CEREALES
         ['arroz cocido', '1/2 taza'],
         ['pasta para sopa', '1/2 taza'],
         ['hojuelas de avena', '1/2 taza'],
@@ -29,9 +30,20 @@ alimentos = {
         ['harina de arroz', '1 1/2 cdas.'],
         ['harina de trigo', '2 cdas.'],
         ['maicena', '2 cdas'],
-        ['harina de maiz', '2 cdas']
+        ['harina de maiz', '2 cdas'],
+        ['pan de caja', '1 reb'],
+        ['bolillo con migajon', '1/3 pza'],
+        ['bolillo sin migajon', '1/2 pza'],
+        ['tortilla de maiz', '1 pza'],
+        ['tamal', '1/2 pza'],
+        ['pan dulce', '1/2 pza'],
+        ['tortilla de harina', '1 pza'],
+        ['hotcakes', '1/2 pza'],
+        ['pay', '1 reb'],
+        ['galletas maria', '4 pzas'],
+        ['galletas saladas', '2 pzas']
     ],
-    'POA': [
+    'POA': [ #GRUPO DE ALIMENTOS PERTENECIENTES A POA
         ['huevo entero', '1 pza (Maximo 3 por semana)'],
         ['pollo', '30 g'],
         ['pavo', '30 g'],
@@ -42,7 +54,7 @@ alimentos = {
         ['sardina drenada', '2 pzas'],
         ['atún drenado', '30 g'],
     ],
-    'Leguminosas':[
+    'Leguminosas':[ #GRUPO DE ALIMENTOS PERTENECIENTES A LAS LEGUMINOSAS
         ['frijol', '1/2 taza'],
         ['frijol de soya', '1/2 taza'],
         ['garbanzo', '1/2 taza'],
@@ -50,7 +62,7 @@ alimentos = {
         ['chicharos', '1/2 taza'],
         ['germinado de soya', '1 taza'],
     ],
-    'Fruta':[
+    'Fruta':[ #GRUPO DE ALIMENTOS PERTENECIENTES A LAS FRUTAS
         ['ciruela', '3 pza'],
         ['durazno', '1 pza'],
         ['fresa', '1 taza'],
@@ -59,7 +71,7 @@ alimentos = {
         ['naranja', '1 pza'],
         ['uvas', '10 pzas'],
     ],
-    'Verdura':[
+    'Verduras':[ #GRUPO DE ALIMENTOS PERTENECIENTES A LAS VERDURAS
         ['acelgas', '1 tza'],
         ['brocoli', '1 tza'],
         ['col', '1 tza'],
@@ -70,7 +82,7 @@ alimentos = {
         ['pepino', '1 tza'],
         ['tomate', '1 tza'],
     ],
-    'Grasa':[
+    'Grasa':[ #GRUPO DE ALIMENTOS PERTENECIENTES A LAS GRASAS
         ['crema', '1 cda'],
         ['queso crema', '1 cda'],
         ['pepitas', '1 cda'],
@@ -83,21 +95,44 @@ alimentos = {
         ['mantequilla', '1 cda'],
         ['cacahuates', '6 pzas'],
     ],
-    'Azucar': [
-        ['Ate', '1 rebanada'],
-        ['Azucar', '2 cda'],
-        ['Cajeta', '1 cda'],
-        ['Chocolate en polvo', '1 cda'],
-        ['Caramelos', '1 pza'],
-        ['Frutas en almibar', '1 pza'],
-        ['Helado de crema', '1/4 taza'],
-        ['Jugo de fruta embotellado', '1/3 tza'],
-        ['Leche condensada', '1 cda'],
-        ['Mermelada', '1 cda'],
-        ['Miel de abeja', '1 cda'],
-        ['Piloncillo', '1 cda'],
+    'Azucar': [ #GRUPO DE ALIMENTOS PERTENECIENTES A LOS AZUCARES
+        ['ate', '1 rebanada'],
+        ['azucar', '2 cda'],
+        ['cajeta', '1 cda'],
+        ['chocolate en polvo', '1 cda'],
+        ['caramelos', '1 pza'],
+        ['frutas en almibar', '1 pza'],
+        ['helado de crema', '1/4 taza'],
+        ['jugo de fruta embotellado', '1/3 tza'],
+        ['leche condensada', '1 cda'],
+        ['mermelada', '1 cda'],
+        ['miel de abeja', '1 cda'],
+        ['piloncillo', '1 cda'],
     ]
 }
+
+
+def elegir_alimentos_de_categoria(categoria, cantidad):
+    if categoria not in alimentos:
+        return "Categoría no encontrada."
+
+    alimentos_categoria = alimentos[categoria]
+    if cantidad > len(alimentos_categoria):
+        return f"Cantidad solicitada excede el número de alimentos disponibles en la categoría {categoria}."
+
+    seleccionados = random.sample(alimentos_categoria, cantidad)
+    resultado = ''
+    for nombre, porcion in seleccionados:
+        resultado += f"{nombre} {porcion}, "
+
+    return resultado
+
+
+# Ejemplo de llamada a la función con una categoría específica y cantidad de alimentos
+categoria = input("Ingrese el nombre de la categoría que desea seleccionar: ")
+cantidad = int(input("Ingrese la cantidad de alimentos que desea seleccionar: "))
+resultado = elegir_alimentos_de_categoria(categoria, cantidad)
+print(resultado)
 
 requerimiento_paciente = None
 extras_dieta = []
@@ -130,14 +165,14 @@ def ventana_seleccion_dieta(paciente: Paciente,paciente_salud: Paciente_salud, r
         lbl_dieta.config(text=f'Requerimiento calculado: {requerimiento_calorico} kcal\n'
                               f'Requerimiento relativo: {requerimiento_paciente.requerimiento}\n'
                               f'Puntos de equivalentes:\n'
-                              f'Cereal {requerimiento_paciente.cereal[0]}\n'
-                              f'Leche {requerimiento_paciente.leche[0]}\n'
-                              f'POA {requerimiento_paciente.poa[0]}\n'
-                              f'Leguminosas {requerimiento_paciente.leguminosas[0]}\n'
-                              f'Fruta {requerimiento_paciente.fruta[0]}\n'
-                              f'Verdura {requerimiento_paciente.verduras[0]}\n'
-                              f'Grasa {requerimiento_paciente.grasa[0]}\n'
-                              f'Azucar {requerimiento_paciente.azucar[0]}\n\n'
+                              f'Cereal {requerimiento_paciente.cereal[0]}, {elegir_alimentos_de_categoria("Cereal", requerimiento_paciente.cereal[0])}\n'
+                              f'Leche {requerimiento_paciente.leche[0]}, {elegir_alimentos_de_categoria("Leche", requerimiento_paciente.leche[0])}\n'
+                              f'POA {requerimiento_paciente.poa[0]}, {elegir_alimentos_de_categoria("POA", requerimiento_paciente.poa[0])}\n'
+                              f'Leguminosas {requerimiento_paciente.leguminosas[0]}, {elegir_alimentos_de_categoria("Leguminosas", requerimiento_paciente.leguminosas[0])}\n'
+                              f'Fruta {requerimiento_paciente.fruta[0]}, {elegir_alimentos_de_categoria("Fruta", requerimiento_paciente.fruta[0])}\n'
+                              f'Verdura {requerimiento_paciente.verduras[0]}, {elegir_alimentos_de_categoria("Verduras", requerimiento_paciente.verduras[0])}\n'
+                              f'Grasa {requerimiento_paciente.grasa[0]}, {elegir_alimentos_de_categoria("Grasa", requerimiento_paciente.grasa[0])}\n'
+                              f'Azucar {requerimiento_paciente.azucar[0]}, {elegir_alimentos_de_categoria("Azucar", requerimiento_paciente.azucar[0])}\n\n'
                               f'NOTA IMPORTANTE: EN NINGUN MOMENTO ESTE ES UN DIAGNOSTICO OFICIAL\nCONSULTE UN ESPECIALISTA PARA UN DIAGNOSTICO VALIDO')
 
     def command_tiroides(): #Lectura de los radio button si el paciente tiene tiroides
